@@ -1,15 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../pages/HomeView.vue'
-import ServerView from '../pages/ServerView.vue'
+import HomeView from '../views/HomeView.vue'
 
 const routes = [
-  { path: '/', name: 'home', component: HomeView },
-  { path: '/server/:id', name: 'server', component: ServerView, props: true }
+  {
+    path: '/',
+    name: 'Home',
+    component: HomeView
+  }
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
-  routes,
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes
 })
 
 export default router

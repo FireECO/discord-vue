@@ -1,41 +1,37 @@
 <template>
-  <form @submit.prevent="submitMessage">
-    <input
-      v-model="newMessage"
-      type="text"
-      placeholder="Écris un message..."
-      required
-    />
-    <button type="submit">Envoyer</button>
-  </form>
+  <div class="message-input">
+    <input v-model="text" @keyup.enter="handleSend" placeholder="Envoyer un message" />
+  </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      newMessage: ''
-    }
-  },
-  methods: {
-    submitMessage() {
-      this.$emit('send', this.newMessage)
-      this.newMessage = ''
-    }
+<script setup>
+import { ref } from 'vue'
+const text = ref('')
+
+function handleSend() {
+  if (text.value.trim() !== '') {
+    emit('send', text.value)
+    text.value = ''
   }
 }
+
+const emit = defineEmits(['send'])
 </script>
 
 <style scoped>
-form {
-  display: flex;
-  gap: 0.5rem;
+.message-input {
+  padding: 12px;
+  border-top: 1px solid #202225;
+  background-color: #40444b;
 }
-input {
-  flex-grow: 1;
-  padding: 0.5rem;
-}
-button {
-  padding: 0.5rem 1rem;
+
+.message-input input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  border: none;
+  background-color: #2f3136;
+  color: white;
+  font-size: 14px;
 }
 </style>
