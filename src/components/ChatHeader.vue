@@ -1,9 +1,13 @@
 <template>
   <div class="chat-header">
-    <template v-if="currentView === 'servers' && selectedChannel">
-      <h2># {{ selectedChannel.name }}</h2>
+    <!-- Serveur : salon textuel ou vocal -->
+    <template v-if="currentView === 'servers' && selectedTextChannel">
+      <h2>
+        {{ isVoiceChannel ? '🔊' : '#' }} {{ selectedTextChannel }}
+      </h2>
     </template>
 
+    <!-- Message privé -->
     <template v-else-if="currentView === 'messages' && selectedFriend">
       <div class="dm-header">
         <img :src="selectedFriend.logo" alt="Avatar" class="avatar" />
@@ -11,6 +15,7 @@
       </div>
     </template>
 
+    <!-- Aucun salon sélectionné -->
     <template v-else>
       <h2>Aucun salon sélectionné</h2>
     </template>
@@ -25,7 +30,8 @@ const store = useStore()
 
 const currentView = computed(() => store.getters.currentView)
 const selectedFriend = computed(() => store.getters.selectedFriend)
-const selectedChannel = computed(() => store.getters.selectedChannel)
+const selectedTextChannel = computed(() => store.getters.selectedTextChannel)
+const isVoiceChannel = computed(() => store.getters.isVoiceChannel)
 </script>
 
 <style scoped>
@@ -33,6 +39,7 @@ const selectedChannel = computed(() => store.getters.selectedChannel)
   padding: 1rem;
   background-color: #36393f;
   border-bottom: 1px solid #ccc;
+  color: white;
 }
 .dm-header {
   display: flex;
@@ -40,8 +47,8 @@ const selectedChannel = computed(() => store.getters.selectedChannel)
   gap: 0.5rem;
 }
 .avatar {
-  width: 32px;
-  height: 32px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
 }
 </style>

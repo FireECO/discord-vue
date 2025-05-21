@@ -1,6 +1,9 @@
 <template>
   <div class="channel-list" v-if="server">
-    <h2>{{ server.name }}</h2>
+    <div class="server-header">
+      <img :src="server.logo" alt="Logo" class="server-logo" />
+      <h2>{{ server.name }}</h2>
+    </div>
 
     <div class="channel-section">
       <div class="section-title">Salons textuels</div>
@@ -15,12 +18,18 @@
     <div class="channel-section">
       <div class="section-title">Salons vocaux</div>
       <ul>
-        <li v-for="channel in server.voiceChannels" :key="channel" @click="selectChannel(channel)"
-          :class="{ active: channel === selectedTextChannel }">
-          🔊 {{ channel }}
-        </li>
+        <template v-for="channel in server.voiceChannels" :key="channel">
+          <li @click="selectChannel(channel)" :class="{ active: channel === selectedTextChannel }">
+            🔊 {{ channel }}
+          </li>
+          <li v-if="channel === selectedVoiceChannel" class="me-line">
+            😊 Moi
+          </li>
+        </template>
       </ul>
+
     </div>
+
   </div>
   <div v-else class="channel-list empty">Sélectionne un serveur</div>
 </template>
@@ -31,7 +40,7 @@ import { mapMutations, mapState } from 'vuex'
 
 export default {
   computed: {
-    ...mapGetters(['selectedServer']),
+    ...mapGetters(['selectedServer', 'selectedVoiceChannel']),
     ...mapState(['selectedTextChannel']),
     server() {
       return this.selectedServer
@@ -73,6 +82,23 @@ export default {
   font-weight: bold;
   color: #aaa;
   margin-bottom: 0.5rem;
+}
+
+.server-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.server-logo {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+}
+
+.me-line {
+  padding-left: 2rem;
+  font-weight: bold;
 }
 
 ul {

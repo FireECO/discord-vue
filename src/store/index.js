@@ -1,11 +1,12 @@
 import { createStore } from 'vuex'
+import { playSound } from '../utils/sound.js'
 
 export default createStore({
   state: {
     currentView: 'servers',
-    selectedServerId: null,
-    selectedTextChannel: null,
-    selectedFriendId: null,
+    selectedServerId: 1,
+    selectedTextChannel: '💬 Général',
+    selectedFriendId: 'dm1',
     messages: {
       1: {
         "💬 Général": [
@@ -149,21 +150,21 @@ export default createStore({
       {
         id: 3,
         name: 'Projet',
-        logo: 'https://img.icons8.com/?size=100&id=21148&format=png&color=000000',
+        logo: 'https://img.icons8.com/?size=100&id=AD01G5KrjXaH&format=png&color=000000',
         textChannels: ['💬 Général', '🔄 Mises à jour', '💻 Tech', '🗣 Feedbacks'],
         voiceChannels: ['🏢 Salle de réunion', '👨‍💻 Dev Talk', '🆘 Support', '💡 Brainstorm', '☕ Pause']
       },
       {
         id: 4,
         name: 'Le Lounge',
-        logo: 'https://img.icons8.com/?size=100&id=VHT1F5Z5saAk&format=png&color=000000',
+        logo: 'https://img.icons8.com/?size=100&id=zvaW0LEBqXt0&format=png&color=000000',
         textChannels: ['💬 Général', '👋 Présentation', '🛠 Tips & Tricks', '📸 Screenshots', '🎉 Événements'],
         voiceChannels: ['😌 Chill', '⚔ Compétitif', '🛡 Raid', '📺 Streaming', '🎊 Party']
       },
       {
         id: 5,
         name: 'Tech Hub',
-        logo: 'https://img.icons8.com/?size=100&id=QePgltTHCtyQ&format=png&color=000000',
+        logo: 'https://img.icons8.com/?size=100&id=oQqxFH13r8pR&format=png&color=000000',
         textChannels: ['💬 Général', '📢 Annonces', '📚 Tutoriels', '🔍 Code Review', '💬 Off Topic'],
         voiceChannels: ['👨‍💻 Développement', '🖥 SysAdmin', '⚙ DevOps', '🌍 Projets Open Source']
       }
@@ -210,13 +211,20 @@ export default createStore({
   mutations: {
     selectServer(state, serverId) {
       state.selectedServerId = serverId
-      state.selectedTextChannel = null
+      state.selectedTextChannel = '💬 Général'
     },
     setCurrentView(state, view) {
       state.currentView = view
     },
-    selectTextChannel(state, channelName) {
-      state.selectedTextChannel = channelName
+    selectTextChannel(state, channel) {
+      state.selectedTextChannel = channel
+
+      const server = state.servers.find(s => s.id === state.selectedServerId)
+      const isVoice = server && server.voiceChannels.includes(channel)
+
+      if (isVoice) {
+        playSound('voice')
+      }
     },
     setSelectedFriendId(state, friendId) {
       state.selectedFriendId = friendId
@@ -246,6 +254,15 @@ export default createStore({
     selectedTextChannel(state) {
       return state.selectedTextChannel
     },
+    selectedVoiceChannel(state, getters) {
+      if (getters.isVoiceChannel) {
+        return state.selectedTextChannel
+      }
+      return null
+    },
+    selectedFriend(state) {
+      return state.friends.find(f => f.id === state.selectedFriendId) || null
+    },
     messagesForSelectedChannel(state) {
       const serverId = state.selectedServerId
       const channelName = state.selectedTextChannel
@@ -257,12 +274,21 @@ export default createStore({
         []
       )
     },
-    selectedFriend: (state) => {
-      return state.friends.find(f => f.id === state.selectedFriendId)
+    messagesForSelectedFriend(state) {
+      const selected = state.selectedFriendId
+      return selected ? state.privateMessages[selected] || [] : []
     },
-    messagesForSelectedFriend: (state) => {
-      const selected = state.selectedFriendId;
-      return selected ? state.privateMessages[selected] || [] : [];
+    isVoiceChannel(state, getters) {
+      const server = getters.selectedServer
+      const channelName = state.selectedTextChannel
+      if (!server || !channelName) return false
+      return server.voiceChannels.includes(channelName)
+    },
+    isTextChannel(state, getters) {
+      const server = getters.selectedServer
+      const channelName = state.selectedTextChannel
+      if (!server || !channelName) return false
+      return server.textChannels.includes(channelName)
     }
   }
 })

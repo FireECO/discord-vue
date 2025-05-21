@@ -8,6 +8,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useStore } from 'vuex'
+import { playSound } from '../utils/sound.js'
 
 const store = useStore()
 const message = ref('')
@@ -46,7 +47,7 @@ const send = () => {
     // Aucun canal ni ami sélectionné
     return;
   }
-
+  playSound('message')
   message.value = ''
 }
 
