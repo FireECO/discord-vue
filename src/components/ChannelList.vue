@@ -5,12 +5,8 @@
     <div class="channel-section">
       <div class="section-title">Salons textuels</div>
       <ul>
-        <li
-          v-for="channel in server.textChannels"
-          :key="channel"
-          @click="selectChannel(channel)"
-          :class="{ active: channel === selectedTextChannel }"
-        >
+        <li v-for="channel in server.textChannels" :key="channel" @click="selectChannel(channel)"
+          :class="{ active: channel === selectedTextChannel }">
           # {{ channel }}
         </li>
       </ul>
@@ -19,12 +15,8 @@
     <div class="channel-section">
       <div class="section-title">Salons vocaux</div>
       <ul>
-        <li
-          v-for="channel in server.voiceChannels"
-          :key="channel"
-          @click="selectChannel(channel)"
-          :class="{ active: channel === selectedTextChannel }"
-        >
+        <li v-for="channel in server.voiceChannels" :key="channel" @click="selectChannel(channel)"
+          :class="{ active: channel === selectedTextChannel }">
           🔊 {{ channel }}
         </li>
       </ul>
@@ -46,9 +38,9 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['setSelectedTextChannel']),
+    ...mapMutations(['selectTextChannel']),
     selectChannel(channel) {
-      this.setSelectedTextChannel(channel)
+      this.selectTextChannel(channel)
     }
   }
 }

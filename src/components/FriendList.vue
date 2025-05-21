@@ -4,7 +4,7 @@
       v-for="friend in friends"
       :key="friend.id"
       class="friend-icon"
-      @click="$store.commit('selectFriend', friend.id)"
+      @click="selectFriend(friend.id)"
       :title="friend.name"
     >
       <img :src="friend.logo" :alt="friend.name" />
@@ -18,6 +18,10 @@ import { useStore } from 'vuex'
 
 const store = useStore()
 const friends = computed(() => store.state.friends)
+
+const selectFriend = (friendId) => {
+  store.commit('setSelectedFriendId', friendId)
+}
 </script>
 
 <style scoped>

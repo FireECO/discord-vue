@@ -1,14 +1,20 @@
 <template>
   <div class="sidebar">
+    <!-- Lien générique vers la section DM -->
     <router-link to="/dm" class="circle">💬</router-link>
     <div class="divider" />
-    <router-link
-      v-for="server in servers"
-      :key="server.id"
-      :to="{ name: 'Servers' }"
-      @click.native="$store.commit('selectServer', server.id)"
-      class="circle"
-    >
+
+    <!-- Liste des amis (DMs) -->
+    <router-link v-for="friend in friends" :key="friend.id" :to="{ name: 'Chat', params: { dmId: friend.id } }"
+      class="circle" :title="friend.name">
+      <img :src="friend.logo" alt="avatar" class="avatar" />
+    </router-link>
+
+    <div class="divider" />
+
+    <!-- Liste des serveurs -->
+    <router-link v-for="server in servers" :key="server.id" :to="{ name: 'Servers' }"
+      @click.native="$store.commit('selectServer', server.id)" class="circle" :title="server.name">
       {{ server.name.charAt(0) }}
     </router-link>
   </div>
@@ -20,9 +26,16 @@ import { useStore } from 'vuex'
 
 const store = useStore()
 const servers = computed(() => store.state.servers)
+const friends = computed(() => store.state.friends)
 </script>
 
 <style scoped>
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
 .sidebar {
   width: 72px;
   background-color: #202225;
@@ -31,6 +44,7 @@ const servers = computed(() => store.state.servers)
   flex-direction: column;
   align-items: center;
 }
+
 .circle {
   width: 48px;
   height: 48px;
@@ -44,6 +58,7 @@ const servers = computed(() => store.state.servers)
   text-decoration: none;
   font-weight: bold;
 }
+
 .divider {
   height: 2px;
   width: 32px;

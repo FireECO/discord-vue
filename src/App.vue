@@ -30,6 +30,7 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router'
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 import ServerList from './components/ServerList.vue'
@@ -40,10 +41,13 @@ import MessageInput from './components/MessageInput.vue'
 import ChatHeader from './components/ChatHeader.vue'
 
 const store = useStore()
+const router = useRouter()
 const currentView = computed(() => store.getters.currentView)
 
 const switchView = () => {
-  store.commit('setCurrentView', currentView.value === 'servers' ? 'dm' : 'servers')
+  const newView = currentView.value === 'servers' ? 'messages' : 'servers'
+  store.commit('setCurrentView', newView)
+  router.push(`/${newView}`)
 }
 
 const tooltip = computed(() =>
