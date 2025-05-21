@@ -1,5 +1,6 @@
 <template>
   <div class="chat-window">
+    <div v-if="messages.length === 0">Aucun message</div>
     <div v-for="(msg, index) in messages" :key="index" class="message">
       <strong>{{ msg.author }}</strong> : {{ msg.text }}
     </div>
@@ -7,7 +8,11 @@
 </template>
 
 <script setup>
-defineProps(['messages'])
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+
+const store = useStore()
+const messages = computed(() => store.getters.messagesForSelectedChannel)
 </script>
 
 <style scoped>

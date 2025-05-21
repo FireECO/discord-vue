@@ -1,16 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import ServerView from '../views/ServerView.vue'
+import DMsView from '../views/DMsView.vue'
 
 const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: HomeView
-  }
+  { path: '/servers', name: 'Servers', component: ServerView },
+  { path: '/dm', name: 'DMs', component: DMsView },
+  { path: '/', redirect: '/servers' }
 ]
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(),
   routes
 })
 

@@ -1,37 +1,49 @@
 <template>
   <div class="message-input">
-    <input v-model="text" @keyup.enter="handleSend" placeholder="Envoyer un message" />
+    <input v-model="message" @keydown.enter="send" placeholder="Écris un message..." />
+    <button @click="send">Envoyer</button>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-const text = ref('')
+import { useStore } from 'vuex'
 
-function handleSend() {
-  if (text.value.trim() !== '') {
-    emit('send', text.value)
-    text.value = ''
+const store = useStore()
+const message = ref('')
+
+const send = () => {
+  if (message.value.trim() && store.state.selectedTextChannel) {
+    store.commit('sendMessage', {
+      channelName: store.state.selectedTextChannel,
+      message: {
+        author: 'Moi',
+        text: message.value
+      }
+    })
+    message.value = ''
   }
 }
-
-const emit = defineEmits(['send'])
 </script>
 
 <style scoped>
 .message-input {
-  padding: 12px;
-  border-top: 1px solid #202225;
+  display: flex;
+  padding: 8px;
   background-color: #40444b;
 }
-
-.message-input input {
-  width: 100%;
-  padding: 10px;
-  border-radius: 4px;
+input {
+  flex: 1;
+  padding: 8px;
   border: none;
-  background-color: #2f3136;
+  border-radius: 4px;
+}
+button {
+  margin-left: 8px;
+  background-color: #7289da;
   color: white;
-  font-size: 14px;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
 }
 </style>

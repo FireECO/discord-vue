@@ -1,12 +1,7 @@
 <template>
   <div class="server-list">
-    <div
-      v-for="server in servers"
-      :key="server.id"
-      class="server-icon"
-      @click="selectServer(server.id)"
-      :title="server.name"
-    >
+    <div v-for="server in servers" :key="server.id" class="server-icon" @click="selectServer(server.id)"
+      :title="server.name">
       <img :src="server.logo" :alt="server.name" />
     </div>
   </div>
@@ -35,6 +30,7 @@ export default {
   padding: 8px 0;
   gap: 12px;
 }
+
 .server-icon img {
   width: 48px;
   height: 48px;
@@ -42,6 +38,7 @@ export default {
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
 .server-icon img:hover {
   transform: scale(1.1);
   box-shadow: 0 0 8px #7289da;

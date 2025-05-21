@@ -11,10 +11,12 @@ body {
 ::-webkit-scrollbar {
   width: 8px;
 }
+
 ::-webkit-scrollbar-thumb {
   background-color: #202225;
   border-radius: 4px;
 }
+
 ::-webkit-scrollbar-track {
   background-color: #2f3136;
 }
@@ -107,4 +109,46 @@ body {
 
 .message-input input:focus {
   outline: none;
+}
+
+/* Conteneur gauche vertical */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 72px;
+  background-color: #202225;
+  align-items: center;
+  padding-top: 10px;
+  gap: 10px;
+}
+
+/* Bouton rond de changement de vue */
+.server-button {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #5865f2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.server-button:hover {
+  background-color: #4752c4;
+}
+
+.server-button img {
+  width: 24px;
+  height: 24px;
+}
+
+/* Zone de droite */
+.chat-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #36393f;
 }

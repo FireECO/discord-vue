@@ -5,7 +5,12 @@
     <div class="channel-section">
       <div class="section-title">Salons textuels</div>
       <ul>
-        <li v-for="channel in server.textChannels" :key="channel">
+        <li
+          v-for="channel in server.textChannels"
+          :key="channel"
+          @click="selectChannel(channel)"
+          :class="{ active: channel === selectedTextChannel }"
+        >
           # {{ channel }}
         </li>
       </ul>
@@ -14,7 +19,12 @@
     <div class="channel-section">
       <div class="section-title">Salons vocaux</div>
       <ul>
-        <li v-for="channel in server.voiceChannels" :key="channel">
+        <li
+          v-for="channel in server.voiceChannels"
+          :key="channel"
+          @click="selectChannel(channel)"
+          :class="{ active: channel === selectedTextChannel }"
+        >
           🔊 {{ channel }}
         </li>
       </ul>
@@ -25,12 +35,20 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 
 export default {
   computed: {
     ...mapGetters(['selectedServer']),
+    ...mapState(['selectedTextChannel']),
     server() {
       return this.selectedServer
+    }
+  },
+  methods: {
+    ...mapMutations(['setSelectedTextChannel']),
+    selectChannel(channel) {
+      this.setSelectedTextChannel(channel)
     }
   }
 }
@@ -46,29 +64,35 @@ export default {
   flex-direction: column;
   overflow-y: auto;
 }
+
 .channel-list.empty {
   display: flex;
   align-items: center;
   justify-content: center;
   font-style: italic;
 }
+
 .channel-section {
   margin-bottom: 1rem;
 }
+
 .section-title {
   font-size: 0.9rem;
   font-weight: bold;
   color: #aaa;
   margin-bottom: 0.5rem;
 }
+
 ul {
   list-style: none;
   padding: 0;
 }
+
 li {
   padding: 4px 0;
   cursor: pointer;
 }
+
 li:hover {
   color: #7289da;
 }

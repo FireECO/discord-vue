@@ -1,12 +1,18 @@
 <template>
   <div class="chat-header">
-    # {{ channel }}
+    <span v-if="selectedTextChannel"># {{ selectedTextChannel }}</span>
+    <span v-else>Aucun salon sélectionné</span>
   </div>
 </template>
 
 <script setup>
-defineProps(['channel'])
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+
+const store = useStore()
+const selectedTextChannel = computed(() => store.state.selectedTextChannel)
 </script>
+
 
 <style scoped>
 .chat-header {
