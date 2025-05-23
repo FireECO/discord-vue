@@ -223,7 +223,7 @@ export default createStore({
       const isVoice = server && server.voiceChannels.includes(channel)
 
       if (isVoice) {
-        playSound('voice')
+        playSound('voicejoin')
       }
     },
     setSelectedFriendId(state, friendId) {
