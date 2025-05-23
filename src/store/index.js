@@ -226,6 +226,9 @@ export default createStore({
         playSound('voicejoin')
       }
     },
+    addFriend(state, friend) {
+      state.friends.push(friend)
+    },
     setSelectedFriendId(state, friendId) {
       state.selectedFriendId = friendId
     },

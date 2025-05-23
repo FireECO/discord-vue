@@ -1,13 +1,11 @@
 <template>
   <div class="friends-list">
-    <div
-      v-for="friend in friends"
-      :key="friend.id"
-      class="friend-icon"
-      @click="selectFriend(friend.id)"
-      :title="friend.name"
-    >
+    <div v-for="friend in friends" :key="friend.id" class="friend-icon" @click="selectFriend(friend.id)"
+      :title="friend.name">
       <img :src="friend.logo" :alt="friend.name" />
+    </div>
+    <div @click="addFriend()"  class=friend-icon>
+      <img src="https://img.icons8.com/?size=100&id=FPUupKT96rDu&format=png&color=000000" alt="Ajouter un ami" />
     </div>
   </div>
 </template>
@@ -21,6 +19,15 @@ const friends = computed(() => store.state.friends)
 
 const selectFriend = (friendId) => {
   store.commit('setSelectedFriendId', friendId)
+}
+
+const addFriend = () => {
+  const newFriend = {
+    id: "dm" + (store.state.friends.length + 1),
+    name: "Friend " + (store.state.friends.length + 1),
+    logo: 'https://img.icons8.com/?size=100&id=2ssCjBEHWZuy&format=png&color=000000'
+  }
+  store.commit('addFriend', newFriend)
 }
 </script>
 

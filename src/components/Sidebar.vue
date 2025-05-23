@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar">
     <!-- Lien générique vers la section DM -->
-    <router-link to="/dm" class="circle">💬</router-link>
+    <router-link to="/messages" class="circle">💬</router-link>
     <div class="divider" />
 
     <!-- Liste des amis (DMs) -->
